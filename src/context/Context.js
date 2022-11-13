@@ -1,65 +1,89 @@
 import { createContext, useEffect, useState } from "react";
+import { ref, push, set, onValue, remove, update } from "firebase/database";
 import { db } from "../utils/firebase";
-import { ref, push, set, onValue, remove } from "firebase/database";
 
 export const Context = createContext();
 
 export const ContextProvider = ({ children }) => {
-  // Get Form Data
+  //Get form data
   const [userName, setUserName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [gender, setGender] = useState("");
-
-  // StorageData
+  //storage data
   const [storageUserData, setStorageUserData] = useState();
-
-  // FormUpdate
   const [isUpdate, setIsUpdate] = useState(false);
-
-  // UserData
+  //userdata
   const [userData, setUserData] = useState([]);
 
-  // Func Section
+  //func section
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    const newContact = {
-      userName,
-      phoneNumber,
-      gender,
-    };
-    setUserData([...userData, newContact]);
-    saveToDatabase(newContact);
+    if (!isUpdate) {
+      const newContact = {
+        userName,
+        phoneNumber,
+        gender,
+      };
+      setUserData([...userData, newContact]);
+      saveToDatabase(newContact);
+    } else {
+      saveToDatabase();
+    }
   };
 
-  // Firebase
+  //Firebase
 
   const saveToDatabase = (item) => {
-    const userRef = ref(db, "Contact");
-    const newUserRef = push(userRef)
-    set(newUserRef, {
-        ...item
-    });
+    if (!isUpdate) {
+      const userRef = ref(db, "Contact");
+      const newUserRef = push(userRef);
+      set(newUserRef, {
+        ...item,
+      });
+      setUserName("");
+      setPhoneNumber("");
+      setGender("");
+    } else {
+      update(ref(db, "Contact/" + storageUserData.id), {
+        userName,
+        phoneNumber,
+        gender,
+      });
+      setIsUpdate(false);
+      setUserName("");
+      setPhoneNumber("");
+      setGender("");
+    }
   };
-  
 
   useEffect(() => {
-    const userRef = ref(db, "Contact")
+    const userRef = ref(db, "Contact");
     onValue(userRef, (details) => {
-        const data = details.val();
-        const contactArr = []
-        for (let id in data) {
-            contactArr.push({id, ...data[id]})
-        }
-        setUserData(contactArr)
-    })
+      const data = details.val();
+      const contactArr = [];
+      for (let id in data) {
+        contactArr.push({ id, ...data[id] });
+      }
+      setUserData(contactArr);
+    });
   }, []);
 
-  // Delete
+  //Update
+
+  const handleUpdate = (item) => {
+    setUserName(item.userName);
+    setPhoneNumber(item.phoneNumber);
+    setGender(item.gender);
+    setIsUpdate(true);
+    setStorageUserData(item);
+  };
+
+  //Delete
 
   const deleteDatabaseData = (item) => {
-    remove(ref(db, "Contact/" + item.id))
-  }
+    remove(ref(db, "Contact/" + item.id));
+  };
 
   return (
     <Context.Provider
@@ -76,6 +100,7 @@ export const ContextProvider = ({ children }) => {
         setIsUpdate,
         handleFormSubmit,
         deleteDatabaseData,
+        handleUpdate,
       }}
     >
       {children}
