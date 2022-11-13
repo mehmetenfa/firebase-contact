@@ -2,15 +2,14 @@ import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDjQu_Fa6dTAVQQYjsLq25kViLKUVyEWd8",
-  authDomain: "contact-app-ab53b.firebaseapp.com",
-  databaseURL:
-    "https://contact-app-ab53b-default-rtdb.europe-west1.firebasedatabase.app/",
-  projectId: "contact-app-ab53b",
-  storageBucket: "contact-app-ab53b.appspot.com",
-  messagingSenderId: "329117881804",
-  appId: "1:329117881804:web:133259f97dd88ea6307969",
-  measurementId: "G-44DRH3BC7X",
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  databaseURL: process.env.REACT_APP_DATABASE_URL,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_APP_ID,
+  measurementId: process.env.REACT_APP_MEASUREMENT_ID,
 };
 
 const app = initializeApp(firebaseConfig);
