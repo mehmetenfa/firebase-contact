@@ -5,7 +5,7 @@ import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 const Table = () => {
   const { userData, deleteDatabaseData, handleUpdate } = useContext(Context);
   return (
-    <div className="overflow-auto rounded-lg bg-gray-400 p-5">
+    <div className="border border-red-700 mb-[10rem] overflow-auto rounded-lg bg-gray-400 p-5">
       <p className="text-center text-2xl mb-4 text-white border-b-2">
         Contact Table
       </p>

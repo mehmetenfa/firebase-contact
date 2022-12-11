@@ -12,7 +12,7 @@ const Form = () => {
     isUpdate,
   } = useContext(Context);
   return (
-    <div className="bg-gray-400 w-[20rem] h-[21rem] rounded">
+    <div className="mt-[7rem] bg-gray-400 w-[20rem] h-[21rem] rounded">
       <div className="flex flex-col justify-center items-center">
         <p className="mt-4 text-2xl border-b-2">Add Contact</p>
         <form
