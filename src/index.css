@@ -3,8 +3,7 @@
 @tailwind utilities;
 
 .App {
-  background: 
-    url("https://codeflarelimited.com/blog/wp-content/uploads/2021/01/react-one.jpg.webp");
+  background: url("https://codeflarelimited.com/blog/wp-content/uploads/2021/01/react-one.jpg.webp");
   background-size: cover;
   height: 100vh;
 }
