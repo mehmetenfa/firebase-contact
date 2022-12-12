@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Context } from "../context/Context";
-import {BiUndo, BiRedo} from 'react-icons/bi'
+import { BiUndo, BiRedo } from "react-icons/bi";
+
 const Form = () => {
   const {
     handleFormSubmit,
@@ -11,6 +12,9 @@ const Form = () => {
     phoneNumber,
     gender,
     isUpdate,
+    handleUndoClick,
+    userData,
+    handleRedoClick
   } = useContext(Context);
   return (
     <div className="bg-gray-400 w-[20rem] h-[24rem] rounded">
@@ -56,10 +60,16 @@ const Form = () => {
             {isUpdate ? "Update User" : "Add User"}
           </button>
           <div className="flex gap-4">
-            <button className="flex justify-center items-center bg-blue-500 text-white w-[6rem] h-[2.3rem] p-1 rounded-xl active:scale-90">
+            <button
+              className="flex justify-center items-center bg-blue-500 text-white w-[6rem] h-[2.3rem] p-1 rounded-xl active:scale-90"
+              onClick={() => handleUndoClick(userData[userData.length - 1])}
+            >
               <BiUndo className="text-2xl" /> Undo
             </button>
-            <button className="flex justify-center items-center bg-blue-500 text-white w-[6rem] h-[2.3rem] p-1 rounded-xl active:scale-90">
+            <button
+              className="flex justify-center items-center bg-blue-500 text-white w-[6rem] h-[2.3rem] p-1 rounded-xl active:scale-90"
+              onClick={handleRedoClick}
+            >
               <BiRedo className="text-2xl" /> Redo
             </button>
           </div>

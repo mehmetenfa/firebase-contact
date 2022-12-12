@@ -9,6 +9,8 @@ export const ContextProvider = ({ children }) => {
   const [userName, setUserName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [gender, setGender] = useState("");
+  const [undoData, setUndoData] = useState();
+  
   //storage data
   const [storageUserData, setStorageUserData] = useState();
   const [isUpdate, setIsUpdate] = useState(false);
@@ -81,6 +83,17 @@ export const ContextProvider = ({ children }) => {
 
   //Delete
 
+  const handleUndoClick = (item) => {
+    setUndoData(item)
+    deleteDatabaseData(item)
+  }
+
+  const handleRedoClick = () => {
+    setIsUpdate(false)
+    saveToDatabase(undoData)
+    setUserData([...userData, undoData]);
+  }
+
   const deleteDatabaseData = (item) => {
     remove(ref(db, "Contact/" + item.id));
   };
@@ -101,6 +114,8 @@ export const ContextProvider = ({ children }) => {
         handleFormSubmit,
         deleteDatabaseData,
         handleUpdate,
+        handleUndoClick,
+        handleRedoClick
       }}
     >
       {children}
